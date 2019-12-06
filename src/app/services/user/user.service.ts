@@ -109,8 +109,10 @@ export class UserService {
 
     return this.http.put( url, user )
             .pipe(map((resp: any) => {
-              let userDB: User = resp.usuario;
-              this.saveStorage( userDB._id, this.token, userDB );
+              if ( user._id === this.user._id ) {
+                let userDB: User = resp.usuario;
+                this.saveStorage( userDB._id, this.token, userDB );
+              }
               Swal.fire('Usuario actualizado', user.email, 'success');
               return true;
             }));
@@ -127,6 +129,28 @@ export class UserService {
           .catch( resp => {
             console.log( resp );
           });
+   }
+
+   loadUsers( from: number = 0 ) {
+
+      let url = URL_SERVICES + '/usuario?desde=' + from;
+      return this.http.get( url );
+
+   }
+
+   searchUsers( term: string ) {
+     let url = URL_SERVICES + '/busqueda/coleccion/usuarios/' + term;
+     return this.http.get( url )
+              .pipe(map((resp: any) => resp.usuarios ));
+   }
+
+   deleteUser( id: string ) {
+
+     let url = URL_SERVICES + '/usuario/' + id;
+     url += '?token=' + this.token;
+
+     return this.http.delete( url );
+
    }
 
 }
