@@ -91,7 +91,7 @@ export class UsersComponent implements OnInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You won\'t be able to revert this! You are about to delete ' + user.nombre,
-      icon: 'warning',
+      type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
