@@ -8,11 +8,13 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuardGuard } from '../services/service.index';
+import { AdminGuard } from '../services/service.index';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
 import { HospitalsComponent } from './hospitals/hospitals.component';
 import { DoctorsComponent } from './doctors/doctors.component';
 import { DoctorComponent } from './doctors/doctor.component';
+import { SearchComponent } from './search/search.component';
 
 const pagesRoutes: Routes = [
     {
@@ -27,8 +29,14 @@ const pagesRoutes: Routes = [
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJS' } },
             { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Account Settings' } },
             { path: 'profile', component: ProfileComponent, data: { title: 'User Profile' } },
+            { path: 'search/:term', component: SearchComponent, data: { title: 'Searcher' } },
             // Admin
-            { path: 'users', component: UsersComponent, data: { title: 'User Control' } },
+            { 
+                path: 'users',
+                component: UsersComponent,
+                canActivate: [ AdminGuard ],
+                data: { title: 'User Control' }
+            },
             { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospital Control' } },
             { path: 'doctors', component: DoctorsComponent, data: { title: 'Doctor Control' } },
             { path: 'doctor/:id', component: DoctorComponent, data: { title: 'Doctor Profile' } },
