@@ -28,6 +28,26 @@ export class UserService {
     this.loadStorage();
    }
 
+   renewToken() {
+    let url = URL_SERVICES + '/login/renuevatoken';
+    url += '?token=' + this.token;
+
+    return this.http.get( url )
+            .pipe(
+              map((resp: any) => {
+                this.token = resp.token;
+                localStorage.setItem('token', this.token);
+                console.log('Token renovado');
+                return true;
+              }),
+              catchError( err => {
+                this.router.navigate(['/login']);
+                Swal.fire('Error al renovar token', 'No fue posible renovar el token', 'error');
+                return throwError( err );
+              })
+            );
+   }
+
 
    isLogged() {
     return ( this.token.length > 5 ) ? true : false;
